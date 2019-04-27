@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript Simulation of two balls attached together with a spring</title>
+	<style type="text/css">
+		label{
+			
+			width: 250px;
+			float: left;
+			text-align: left;
+		}
+		label, input{
+			margin: 5px;
+		}
+	</style>
+</head>
+<body>
+<center>
+<div class="wrappper" style="width: 500px;">
+			<center>
+			<form onsubmit="return false">
+
+				<label>Weight of The first Ball :</label><input type="number" id="b1w" placeholder="Ball One weight"><br>
+				<label>Weight of The Second Ball :</label><input type="number" id="b2w" placeholder="Ball Two weight"><br>
+				<label>Spring Stifness :</label><input type="number" id="k"><br><br>
+				<center><button id="btnApply">Apply</button></center>
+			</form>
+		</center>
+	<canvas width="500" height="600" style="background: white; border: 2px solid blue;" id="canvas">
+
+
+
+	</canvas> 
+	
+
+</div>
+</center>
+<script type="text/javascript">
+
+      var canvas = document.getElementById('canvas');
+
+
+      var kIn = document.getElementById('k');
+      var b1wIn = document.getElementById('b1w');
+      var b2wIn = document.getElementById('b2w');
+
+     kIn.value =5;
+      b1wIn.value = 200;
+      b2wIn.value = 400;
+      draw(canvas,5,200,400);
+      var apply = document.getElementById('btnApply');
+
+      apply.onclick=function(e){
+      	var k=kIn.value;
+      	k=Number(k);
+      	var b1w=b1wIn.value;
+      	b1w=Number(b1w);
+      	var b2w = b2wIn.value;
+      	b2w=Number(b2w);
+      	console.log(k);
+      	console.log(b1w);
+      	console.log(b2w);
+      	console.log(canvas);
+      	draw(canvas,k,b1w,b2w);
+      }
+
+ 
+
+      function draw(canvas, k, b1w, b2w){
+
+      	var f1 = b1w+b2w;//Force on ball 1
+      	var f2 = b2w;//Force on ball 2
+
+      	var e1 = f1/k;//Extension on spring 1
+      	var e2 = f2/k;//Extension on spring 2
+      	var totalE=e1+e2;
+      	canvas.height=totalE+50;
+      	var context = canvas.getContext('2d');
+      	var ball1=context.clearRect(0, 0, canvas.width, canvas.height);
+
+	      //Set position for ball 1
+	      var ball1X = canvas.width / 2;
+	      var ball1Y = e1;//Ball 1 Y position
+	      var radius = 20;
+
+	      //Set possition for ball 2
+	      var ball2X = canvas.width / 2;
+	      var ball2Y =  e1 +e2;// Ball 2 Y position
+
+	            //Line1
+		context.beginPath();
+		context.moveTo(canvas.width/2, 0);
+		context.lineTo(ball1X, ball1Y);
+		context.stroke();
+		//Line 2
+		context.beginPath();
+		context.moveTo(canvas.width/2, ball1Y-radius);
+		context.lineTo(ball2X, ball2Y);
+		context.stroke();
+      //Draw Ball 1
+      context.beginPath();
+     var  ball2=context.arc(ball1X, ball1Y, radius, 0, 2 * Math.PI, false);
+     alert(ball2);
+      context.fillStyle = 'red';
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = '#003300';
+      //Draw ball 2
+      context.stroke();
+      context.beginPath();
+      context.arc(ball2X, ball2Y, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = 'red';
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = '#003300';
+      context.stroke();
+
+
+      }
+</script>
+<script type="text/javascript" src="./balls.js"></script>
+</body>
+</html>
